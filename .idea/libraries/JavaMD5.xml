@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="JavaMD5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/JavaMD5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

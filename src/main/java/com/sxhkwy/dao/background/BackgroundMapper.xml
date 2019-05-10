@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxhkwy.dao.background.BackgroundMapper">
+    <!--查询所有资讯信息-->
+    <select id="findInformationAll" resultType="com.sxhkwy.pojo.Information">
+        SELECT * FROM information
+    </select>
+    <!--添加资讯信息-->
+    <insert id="setInformation" parameterType="com.sxhkwy.pojo.Information">
+        INSERT INTO information(iTitle,iBody,iDate,iCategory,iadjunctName,iPictureName,MessageMan)
+        VALUES (#{iTitle},#{iBody},#{iDate},#{iCategory},#{iadjunctName},#{iPictureName},#{MessageMan})
+    </insert>
+    <!--根据ID查询资讯信息-->
+    <select id="findInformationById" parameterType="java.lang.Integer" resultType="com.sxhkwy.pojo.Information">
+        SELECT * FROM information WHERE iId = #{iId}
+    </select>
+    <!--根据ID删除资讯信息-->
+    <delete id="deleteInformationById" parameterType="Integer">
+        DELETE FROM information WHERE iId = #{iId}
+    </delete>
+    <!--根据ID修改资讯信息-->
+    <update id="modifyInformationById" parameterType="com.sxhkwy.pojo.Information">
+        UPDATE information
+        <set>
+            <if test="iTitle != null ">
+                iTitle = #{iTitle},
+            </if>
+            <if test="iBody != null">
+                iBody = #{iBody},
+            </if>
+            <if test="iDate != null">
+                iDate = #{iDate},
+            </if>
+            <if test="iCategory != null">
+                iCategory = #{iCategory},
+            </if>
+            <if test="iadjunctName != null">
+                iadjunctName = #{iadjunctName},
+            </if>
+            <if test="iPictureName != null">
+                iPictureName = #{iPictureName},
+            </if>
+            <if test="MessageMan != null">
+                MessageMan = #{messageMan}
+            </if>
+        </set>
+        WHERE iId = #{iId}
+    </update>
+    <!--分页查询资讯-->
+    <select id="findInformationByPage" parameterType="java.util.HashMap" resultType="com.sxhkwy.pojo.Information">
+        SELECT *
+        FROM information
+        WHERE 1 = 1
+        <if test="iCategory != null and iCategory != '' ">
+            AND iCategory = #{iCategory}
+        </if>
+        limit #{startIndex},#{rows}
+    </select>
+    <!--分页查询网站-->
+    <select id="findWebSites" parameterType="java.util.HashMap" resultType="com.sxhkwy.pojo.WebSites">
+        SELECT *
+        FROM websites
+        limit #{startIndex},#{rows}
+    </select>
+    <!--查询资讯总条数-->
+    <select id="totalByInformation" resultType="Integer">
+        SELECT COUNT(*)
+        FROM information
+    </select>
+    <select id="findWebSiteAll" resultType="com.sxhkwy.pojo.WebSites">
+        SELECT * FROM websites
+    </select>
+    <!--添加首页网站-->
+    <insert id="setWebSite" parameterType="com.sxhkwy.pojo.WebSites">
+        INSERT INTO websites(wId,wURL,wPic,wExplain)
+        VALUES (#{wId},#{wURL},#{wPic},#{wExplain})
+    </insert>
+    <!--根据ID删除website-->
+    <delete id="deleteWebsiteById" parameterType="Integer">
+        DELETE FROM websites
+        WHERE wId = #{wId}
+    </delete>
+    <!--根据分类查询-->
+    <select id="findInformationByCat" parameterType="String" resultType="com.sxhkwy.pojo.Information">
+        SELECT *
+        FROM information
+        WHERE 1 = 1
+        <if test="_parameter != null and _parameter !=''">
+            AND iCategory = #{iCategory}
+        </if>
+    </select>
+    <!--查询分类查询总条数-->
+    <select id="getiCatCount" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM information WHERE 1 = 1
+        <if test="_parameter != null and _parameter !=''">
+            AND iCategory LIKE #{iCategory}
+        </if>
+    </select>
+    <!--查询web总数-->
+    <select id="getWebCount" resultType="Integer">
+         SELECT COUNT(*) FROM websites
+    </select>
+    <!--删除附件名-->
+    <update id="deleteIadjunctNameBypId" parameterType="Integer">
+        UPDATE information SET iadjunctName = NULL WHERE iId = #{iId}
+    </update>
+    <!--是否有用户-->
+    <select id="getUserCount" resultType="Integer">
+        SELECT COUNT(*) FROM USER
+    </select>
+    <!--添加用户-->
+    <insert id="setUser" parameterType="com.sxhkwy.pojo.User">
+        INSERT INTO USER(uName,uPsw,ruler)
+        VALUES (#{uName},#{uPsw},#{ruler})
+    </insert>
+    <!--判断user-->
+    <select id="getUser" parameterType="com.sxhkwy.pojo.User" resultType="com.sxhkwy.pojo.User">
+        SELECT * FROM USER WHERE uName = #{uName} AND uPsw = #{uPsw}
+    </select>
+    <select id="findUser" parameterType="java.util.HashMap" resultType="com.sxhkwy.pojo.User">
+        SELECT * FROM USER limit #{startIndex},#{rows}
+    </select>
+    <!--查看是否存在-->
+    <select id="getUserByName" parameterType="com.sxhkwy.pojo.User" resultType="Integer">
+        SELECT COUNT(*) FROM USER WHERE uName = #{uName}
+    </select>
+    <!--删除用户-->
+    <delete id="deleteUserById" parameterType="Integer">
+        DELETE FROM USER
+        WHERE uId = #{uId}
+    </delete>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sxhkwy.dao.front.PictureMapper">
+    <!--查询所有图片-->
+    <select id="findPicAll" resultType="com.sxhkwy.pojo.Picture">
+        SELECT * FROM picture
+    </select>
+    <!--添加图片-->
+    <insert id="setPicture" parameterType="com.sxhkwy.pojo.Picture">
+        INSERT INTO picture(pName,pPath,pCategory)
+        VALUES (#{pName},#{pPath},#{pCategory})
+    </insert>
+    <!--查询图片信息总条数-->
+    <select id="totalByPicture" resultType="Integer">
+        SELECT COUNT(*)
+        FROM picture
+    </select>
+    <!--根据ID查询图片信息-->
+    <select id="findPicBypId" resultType="com.sxhkwy.pojo.Picture" parameterType="Integer">
+        SELECT * FROM picture WHERE pId = #{pId}
+    </select>
+    <!--根据ID删除-->
+    <delete id="deletePicBypId" parameterType="Integer">
+        DELETE FROM picture
+        WHERE pId = #{pId}
+    </delete>
+    <!--修改-->
+    <update id="modifyPicBypPid" parameterType="com.sxhkwy.pojo.Picture">
+        UPDATE picture
+        <set>
+            <if test="pName != null">
+                pName = #{pName},
+            </if>
+            <if test="pPath != null">
+                pPath = #{pPath}
+            </if>
+            <if test="pCategory != null">
+                pCategory = #{pCategory}
+            </if>
+        </set>
+        WHERE pId = #{pId}
+    </update>
+</mapper>
